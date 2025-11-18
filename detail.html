@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>樂民友里全運會大抽獎 - 詳情</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #e0f2fe;
+      --card: #eff6ff;
+      --text: #0f172a;
+      --muted: #6b7280;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e0f2fe 0, #bfdbfe 40%, #93c5fd 100%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 520px;
+      background: linear-gradient(145deg, rgba(239, 246, 255, 0.96), rgba(219, 234, 254, 0.98));
+      border-radius: 18px;
+      border: 1px solid rgba(129, 140, 248, 0.5);
+      box-shadow:
+        0 18px 40px rgba(15, 23, 42, 0.25),
+        0 0 0 1px rgba(148, 163, 184, 0.6);
+      padding: 18px 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .reset-wrap {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 4px;
+      margin-top: 2px;
+    }
+
+    #resetButton {
+      border: none;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      color: #fef2f2;
+      box-shadow:
+        0 5px 10px rgba(239, 68, 68, 0.55),
+        0 0 0 1px rgba(248, 113, 113, 0.7);
+    }
+
+    #resetButton:hover {
+      filter: brightness(1.05);
+    }
+
+    #resetButton:active {
+      transform: translateY(1px);
+      box-shadow:
+        0 3px 8px rgba(239, 68, 68, 0.6),
+        0 0 0 1px rgba(248, 113, 113, 0.7);
+    }
+
+    .side-panel {
+      background: rgba(239, 246, 255, 0.96);
+      border-radius: 14px;
+      padding: 12px 14px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .panel-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #111827;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-title span {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .color-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .color-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .color-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid rgba(15, 23, 42, 0.15);
+      flex-shrink: 0;
+    }
+    .dot-blue { background: #3b82f6; }
+    .dot-red { background: #ef4444; }
+    .dot-green { background: #22c55e; }
+    .dot-yellow { background: #eab308; }
+
+    .prize-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .prize-row {
+      display: grid;
+      grid-template-columns: 1.3fr 1.2fr 0.9fr;
+      align-items: center;
+      font-size: 13px;
+      padding: 7px 8px;
+      border-radius: 10px;
+      background: rgba(239, 246, 255, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      column-gap: 4px;
+    }
+
+    .prize-row.header {
+      background: transparent;
+      border: none;
+      padding-top: 0;
+      padding-bottom: 0;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      grid-template-columns: 1.3fr 1.2fr 0.9fr;
+    }
+
+    .prize-name {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .tag {
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .tag-1 {
+      background: rgba(59, 130, 246, 0.12);
+      color: #1d4ed8;
+      border: 1px solid rgba(59, 130, 246, 0.7);
+    }
+
+    .tag-2 {
+      background: rgba(239, 68, 68, 0.12);
+      color: #b91c1c;
+      border: 1px solid rgba(239, 68, 68, 0.7);
+    }
+
+    .tag-3 {
+      background: rgba(34, 197, 94, 0.12);
+      color: #15803d;
+      border: 1px solid rgba(34, 197, 94, 0.7);
+    }
+
+    .tag-4 {
+      background: rgba(234, 179, 8, 0.16);
+      color: #92400e;
+      border: 1px solid rgba(234, 179, 8, 0.7);
+    }
+
+    .ratio {
+      font-variant-numeric: tabular-nums;
+      color: #4c1d95;
+      font-size: 12px;
+    }
+
+    .stock {
+      font-variant-numeric: tabular-nums;
+      color: #111827;
+    }
+
+    .stock.exhausted {
+      color: #b91c1c;
+      font-weight: 600;
+    }
+
+    .status-box {
+      margin-top: 4px;
+      padding: 8px 9px;
+      border-radius: 10px;
+      background: rgba(239, 246, 255, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .status-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .status-label {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .status-value {
+      font-size: 13px;
+      font-weight: 500;
+      color: #111827;
+    }
+
+    .status-value.success { color: #166534; font-weight: 600; }
+    .status-value.error { color: #b91c1c; font-weight: 600; }
+
+    .total-info {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+      margin-top: -4px;
+    }
+
+    .back-link {
+      margin-top: 6px;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .back-link a {
+      color: #1d4ed8;
+      text-decoration: none;
+    }
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <div class="title">樂民友里全運會大抽獎</div>
+      <div class="subtitle">顏色對應與獎項詳情（實時）</div>
+    </div>
+
+    <div class="reset-wrap">
+      <button id="resetButton">重置抽獎紀錄</button>
+    </div>
+
+    <div class="side-panel">
+      <div class="panel-title">
+        抽獎設定
+        <span>顏色、比例、庫存</span>
+      </div>
+
+      <div class="color-legend">
+        <div class="color-item">
+          <span class="color-dot dot-blue"></span>
+          <span>藍色：獎品1</span>
+        </div>
+        <div class="color-item">
+          <span class="color-dot dot-red"></span>
+          <span>紅色：獎品2</span>
+        </div>
+        <div class="color-item">
+          <span class="color-dot dot-green"></span>
+          <span>綠色：獎品3</span>
+        </div>
+        <div class="color-item">
+          <span class="color-dot dot-yellow"></span>
+          <span>黃色：安慰獎</span>
+        </div>
+      </div>
+
+      <div class="prize-list">
+        <div class="prize-row header">
+          <div>獎項</div>
+          <div>比例</div>
+          <div>剩餘 / 總數</div>
+        </div>
+        <div class="prize-row" id="row-p1">
+          <div class="prize-name">
+            <span class="tag tag-1">獎品1</span>
+          </div>
+          <div class="ratio" id="ratio-p1">3 / 32 (9.4%)</div>
+          <div class="stock"><span id="stock-p1">0</span> / <span id="total-p1">0</span></div>
+        </div>
+        <div class="prize-row" id="row-p2">
+          <div class="prize-name">
+            <span class="tag tag-2">獎品2</span>
+          </div>
+          <div class="ratio" id="ratio-p2">1 / 32 (3.1%)</div>
+          <div class="stock"><span id="stock-p2">0</span> / <span id="total-p2">0</span></div>
+        </div>
+        <div class="prize-row" id="row-p3">
+          <div class="prize-name">
+            <span class="tag tag-3">獎品3</span>
+          </div>
+          <div class="ratio" id="ratio-p3">3 / 32 (9.4%)</div>
+          <div class="stock"><span id="stock-p3">0</span> / <span id="total-p3">0</span></div>
+        </div>
+        <div class="prize-row" id="row-consolation">
+          <div class="prize-name">
+            <span class="tag tag-4">安慰獎</span>
+          </div>
+          <div class="ratio" id="ratio-consolation">25 / 32 (78.1%)</div>
+          <div class="stock"><span id="stock-consolation">0</span> / <span id="total-consolation">0</span></div>
+        </div>
+      </div>
+
+      <div class="total-info" id="totalInfo"></div>
+
+      <div class="status-box">
+        <div class="status-line">
+          <div class="status-label">總抽獎次數</div>
+          <div id="statusCount" class="status-value">0</div>
+        </div>
+      </div>
+
+      <div class="status-box">
+        <div class="status-line">
+          <div class="status-label">當前狀態</div>
+          <div id="statusResult" class="status-value">尚未有抽獎紀錄</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="back-link">
+      <a href="index.html">返回抽獎頁</a>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "lotteryState";
+
+    const stockEls = {
+      p1: document.getElementById("stock-p1"),
+      p2: document.getElementById("stock-p2"),
+      p3: document.getElementById("stock-p3"),
+      consolation: document.getElementById("stock-consolation")
+    };
+
+    const totalEls = {
+      p1: document.getElementById("total-p1"),
+      p2: document.getElementById("total-p2"),
+      p3: document.getElementById("total-p3"),
+      consolation: document.getElementById("total-consolation")
+    };
+
+    const ratioEls = {
+      p1: document.getElementById("ratio-p1"),
+      p2: document.getElementById("ratio-p2"),
+      p3: document.getElementById("ratio-p3"),
+      consolation: document.getElementById("ratio-consolation")
+    };
+
+    const totalInfo = document.getElementById("totalInfo");
+    const statusCount = document.getElementById("statusCount");
+    const statusResult = document.getElementById("statusResult");
+
+    function loadState() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        statusResult.textContent = "尚未從抽獎頁取得資料";
+        statusResult.classList.add("error");
+        return;
+      }
+
+      try {
+        const state = JSON.parse(raw);
+        if (!state || !Array.isArray(state.prizes)) {
+          statusResult.textContent = "資料格式有誤";
+          statusResult.classList.add("error");
+          return;
+        }
+
+        let totalRemain = 0;
+        let totalInit = 0;
+        let totalWeightLeft = 0;
+
+        state.prizes.forEach(p => {
+          const key = p.key;
+          if (!stockEls[key] || !totalEls[key]) return;
+
+          const stock = typeof p.stock === "number" ? p.stock : 0;
+          const total = typeof p.total === "number" ? p.total : 0;
+          const weightLeft = typeof p.weightLeft === "number" ? p.weightLeft : 0;
+
+          stockEls[key].textContent = stock;
+          totalEls[key].textContent = total;
+
+          totalRemain += stock;
+          totalInit += total;
+          totalWeightLeft += weightLeft;
+
+          const row = document.getElementById("row-" + key);
+          if (row) {
+            const stockCell = row.querySelector(".stock");
+            if (stock === 0 && total > 0) {
+              stockCell.classList.add("exhausted");
+            }
+          }
+        });
+
+        // 第二輪：顯示比例 = 各自 weightLeft / totalWeightLeft 以及百分比
+        state.prizes.forEach(p => {
+          const key = p.key;
+          if (!ratioEls[key]) return;
+          const weightLeft = typeof p.weightLeft === "number" ? p.weightLeft : 0;
+
+          if (totalWeightLeft > 0) {
+            const percent = (weightLeft / totalWeightLeft) * 100;
+            const percentStr = percent.toFixed(1);
+            ratioEls[key].textContent = `${weightLeft} / ${totalWeightLeft} (${percentStr}%)`;
+          } else {
+            ratioEls[key].textContent = `0 / 0 (0.0%)`;
+          }
+        });
+
+        totalInfo.textContent = `獎項總數：${totalInit}，目前剩餘：${totalRemain}`;
+        statusCount.textContent = state.drawCount ?? 0;
+        statusResult.textContent = "已載入最新抽獎狀態";
+        statusResult.classList.remove("error");
+        statusResult.classList.add("success");
+      } catch (e) {
+        statusResult.textContent = "無法讀取 localStorage 資料";
+        statusResult.classList.add("error");
+      }
+    }
+
+    loadState();
+
+    // ========= 重置按鈕邏輯 =========
+    const resetButton = document.getElementById("resetButton");
+
+    resetButton.addEventListener("click", () => {
+      const step1 = confirm("你確定要重置抽獎紀錄嗎？");
+      if (!step1) return;
+
+      const step2 = confirm("所有獎品剩餘數量與比例會回復到最初設定，確定要繼續嗎？");
+      if (!step2) return;
+
+      const step3 = confirm("最後確認：按「確定」即時重置，操作無法還原。仍然要重置？");
+      if (!step3) return;
+
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+        alert("已重置完成。\n請重新打開或重新載入抽獎頁（index.html）。");
+        Object.values(stockEls).forEach(el => el.textContent = "0");
+        Object.values(totalEls).forEach(el => el.textContent = "0");
+        Object.values(ratioEls).forEach(el => el.textContent = "0 / 0 (0.0%)");
+        totalInfo.textContent = "";
+        statusCount.textContent = "0";
+        statusResult.textContent = "已重置本機抽獎紀錄";
+        statusResult.classList.remove("success");
+        statusResult.classList.add("error");
+      } catch (e) {
+        console.error(e);
+        alert("重置時出現問題，請稍後再試。");
+      }
+    });
+  </script>
+</body>
+</html>
