@@ -2,14 +2,14 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>樂民友里全運會大抽獎 - 抽獎頁</title>
+  <title>樂民友里全運會大抽獎 - 詳情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
       --bg: #e0f2fe;
+      --card: #eff6ff;
       --text: #0f172a;
-      --wheel-border: #1e3a8a;
-      --card: rgba(239, 246, 255, 0.96);
+      --muted: #6b7280;
     }
 
     * {
@@ -31,65 +31,104 @@
 
     .app {
       width: 100%;
-      max-width: 640px;
-      background: linear-gradient(145deg, rgba(219, 234, 254, 0.96), rgba(191, 219, 254, 0.98));
+      max-width: 560px;
+      background: linear-gradient(145deg, rgba(239, 246, 255, 0.96), rgba(219, 234, 254, 0.98));
       border-radius: 22px;
-      border: 1px solid rgba(129, 140, 248, 0.4);
+      border: 1px solid rgba(129, 140, 248, 0.5);
       box-shadow:
         0 18px 40px rgba(15, 23, 42, 0.25),
-        0 0 0 1px rgba(148, 163, 184, 0.5);
+        0 0 0 1px rgba(148, 163, 184, 0.6);
       padding: clamp(18px, 4vw, 28px);
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      position: relative;
-      overflow: hidden;
+      gap: 14px;
     }
 
     .header {
       text-align: center;
+      margin-bottom: 4px;
     }
 
     .title {
-      font-size: clamp(20px, 3vw, 26px);
+      font-size: clamp(20px, 2.8vw, 24px);
       font-weight: 700;
-      letter-spacing: 0.04em;
       margin: 0;
     }
 
-    .main {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      gap: clamp(16px, 4vw, 32px);
-      flex-wrap: wrap;
-    }
-
-    .side-panel {
-      background: var(--card);
-      border-radius: 14px;
-      padding: 12px 14px;
-      border: 1px solid rgba(129, 140, 248, 0.6);
+    .subtitle {
       font-size: 0.85em;
-      max-width: 200px;
-      flex: 1 1 180px;
-      color: #111827;
+      color: var(--muted);
     }
 
-    .side-title {
-      font-size: 0.8em;
+    .reset-wrap {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 4px;
+    }
+
+    #resetButton {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.75em;
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: #1f2937;
-      margin-bottom: 8px;
-      text-align: center;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      color: #fef2f2;
+      box-shadow:
+        0 5px 10px rgba(239, 68, 68, 0.35),
+        0 0 0 1px rgba(248, 113, 113, 0.7);
+      transition: filter 0.12s;
+    }
+
+    #resetButton:hover {
+      filter: brightness(1.05);
+    }
+
+    #resetButton:active {
+      transform: translateY(1px);
+      box-shadow:
+        0 3px 8px rgba(239, 68, 68, 0.4),
+        0 0 0 1px rgba(248, 113, 113, 0.7);
+    }
+
+    .side-panel {
+      background: rgba(239, 246, 255, 0.96);
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .panel-title {
+      font-size: 0.85em;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #111827;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .panel-title span {
+      font-size: 0.75em;
+     	color: var(--muted);
+      font-weight: 400;
     }
 
     .color-legend {
       display: flex;
       flex-direction: column;
       gap: 8px;
+      font-size: 0.9em;
+      margin-top: 4px;
     }
 
     .color-item {
@@ -99,268 +138,175 @@
     }
 
     .color-dot {
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
       border: 1px solid rgba(15, 23, 42, 0.15);
       flex-shrink: 0;
     }
 
-    .dot-blue   { background: #3b82f6; }
-    .dot-red    { background: #ef4444; }
-    .dot-green  { background: #22c55e; }
+    .dot-blue { background: #3b82f6; }
+    .dot-red { background: #ef4444; }
+    .dot-green { background: #22c55e; }
     .dot-yellow { background: #eab308; }
 
-    .wheel-block {
-      flex: 2 1 280px;
+    .prize-list {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      position: relative;
-      padding-bottom: 12px;
-    }
-
-    .wheel-wrapper {
-      width: min(360px, 80vw);
-      max-width: 100%;
-      aspect-ratio: 1 / 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .wheel {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: clamp(8px, 1.2vw, 10px) solid rgba(30, 64, 175, 0.9);
-      background: conic-gradient(
-        from -90deg,
-        #eab308 0deg 56.25deg,
-        #3b82f6 56.25deg 90deg,
-        #eab308 90deg 135deg,
-        #ef4444 135deg 146.25deg,
-        #eab308 146.25deg 163.125deg,
-        #22c55e 163.125deg 253.125deg,
-        #eab308 253.125deg 360deg
-      );
-      box-shadow:
-        0 0 0 3px rgba(191, 219, 254, 0.8),
-        0 0 26px rgba(30, 64, 175, 0.65);
-      position: relative;
-      transition: transform 4s cubic-bezier(0.13, 0.78, 0.33, 1.01);
-    }
-
-    .wheel::before {
-      content: "";
-      position: absolute;
-      inset: 50%;
-      width: 8%;
-      height: 8%;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      background: #eff6ff;
-      border: 1px solid rgba(30, 64, 175, 0.55);
-      z-index: 1;
-    }
-
-    .pointer {
-      position: absolute;
-      top: -14px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: clamp(12px, 2vw, 18px) solid transparent;
-      border-right: clamp(12px, 2vw, 18px) solid transparent;
-      border-top: clamp(24px, 3.5vw, 32px) solid #60a5fa;
-      filter: drop-shadow(0 3px 6px rgba(15, 23, 42, 0.55));
-      z-index: 5;
-    }
-
-    .controls {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-      margin-top: 20px;
-    }
-
-    .button {
-      width: min(240px, 80%);
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      color: white;
-      border: none;
-      border-radius: 999px;
-      padding: 12px 24px;
-      font-size: 1em;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      cursor: pointer;
-      box-shadow:
-        0 8px 18px rgba(37, 99, 235, 0.35),
-        0 0 0 1px rgba(191, 219, 254, 0.9);
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
       gap: 8px;
-      transition:
-        transform 0.12s ease-out,
-        box-shadow 0.12s ease-out,
-        filter 0.12s ease-out;
     }
 
-    .button:active {
-      transform: translateY(1px) scale(0.98);
-      box-shadow:
-        0 3px 10px rgba(37, 99, 235, 0.45),
-        0 0 0 1px rgba(191, 219, 254, 0.9);
-      filter: brightness(0.96);
+    .prize-row {
+      display: grid;
+      grid-template-columns: 1.3fr 1.1fr 0.9fr;
+      align-items: center;
+      font-size: 0.9em;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(239, 246, 255, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      column-gap: 6px;
     }
 
-    .button:disabled {
-      cursor: not-allowed;
-      opacity: 0.6;
-      box-shadow: none;
-      filter: grayscale(0.3);
+    .prize-row.header {
+      background: transparent;
+      border: none;
+      padding-top: 0;
+      padding-bottom: 0;
+      font-size: 0.75em;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
     }
 
-    .link-detail {
+    .prize-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .tag {
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.75em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .tag-1 {
+      background: rgba(59, 130, 246, 0.12);
+      color: #1d4ed8;
+      border: 1px solid rgba(59, 130, 246, 0.7);
+    }
+
+    .tag-2 {
+      background: rgba(239, 68, 68, 0.12);
+      color: #b91c1c;
+      border: 1px solid rgba(239, 68, 68, 0.7);
+    }
+
+    .tag-3 {
+      background: rgba(34, 197, 94, 0.12);
+      color: #15803d;
+      border: 1px solid rgba(34, 197, 94, 0.7);
+    }
+
+    .tag-4 {
+      background: rgba(234, 179, 8, 0.16);
+      color: #92400e;
+      border: 1px solid rgba(234, 179, 8, 0.7);
+    }
+
+    .ratio {
+      font-variant-numeric: tabular-nums;
+      color: #4c1d95;
+      font-size: 0.85em;
+    }
+
+    .stock {
+      font-variant-numeric: tabular-nums;
+      color: #111827;
+      font-size: 0.85em;
+    }
+
+    .stock.exhausted {
+      color: #b91c1c;
+      font-weight: 600;
+    }
+
+    .status-box {
+      margin-top: 4px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(239, 246, 255, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      font-size: 0.85em;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .status-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .status-label {
+      color: var(--muted);
       font-size: 0.8em;
-      color: #6b7280;
-      text-align: center;
-      margin-top: 8px;
     }
 
-    .link-detail a {
+    .status-value {
+      font-size: 0.95em;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .status-value.success { color: #166534; }
+    .status-value.error { color: #b91c1c; }
+
+    .total-info {
+      font-size: 0.82em;
+      color: var(--muted);
+      text-align: right;
+      margin-top: -4px;
+    }
+
+    .back-link {
+      margin-top: 8px;
+      font-size: 0.9em;
+      text-align: center;
+    }
+
+    .back-link a {
       color: #1d4ed8;
       text-decoration: none;
     }
 
-    .link-detail a:hover {
+    .back-link a:hover {
       text-decoration: underline;
     }
 
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.45);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 20;
-      padding: 16px;
-    }
-
-    .modal-backdrop.show {
-      display: flex;
-      animation: fadeIn 0.25s ease-out;
-    }
-
-    .modal {
-      width: 100%;
-      max-width: 360px;
-      background: radial-gradient(circle at top, rgba(191, 219, 254, 0.7), transparent 55%),
-                  linear-gradient(145deg, #eff6ff, #dbeafe);
-      border-radius: 16px;
-      border: 1px solid rgba(59, 130, 246, 0.7);
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.5);
-      padding: 22px 20px 18px;
-      position: relative;
-      overflow: hidden;
-      animation: popIn 0.25s ease-out;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      color: #1f2937;
-    }
-
-    .modal-main-text {
-      font-size: clamp(20px, 4vw, 26px);
-      font-weight: 800;
-      color: #1d4ed8;
-      text-shadow: 0 0 8px rgba(191, 219, 254, 0.8);
-      margin: 12px 0 6px;
-      line-height: 1.4;
-    }
-
-    .modal-button {
-      margin-top: 10px;
-      width: 100%;
-      border: none;
-      border-radius: 999px;
-      padding: 10px 0;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: #052e16;
-      font-size: 0.95em;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      cursor: pointer;
-      box-shadow:
-        0 10px 20px rgba(34, 197, 94, 0.4),
-        0 0 0 1px rgba(190, 242, 100, 0.6);
-    }
-
-    .modal-close-x {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: #6b7280;
-      cursor: pointer;
-      background: rgba(239, 246, 255, 0.9);
-    }
-
-    @keyframes popIn {
-      from { opacity: 0; transform: translateY(10px) scale(0.95); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    @media (max-width: 480px) {
-      .app {
-        border-radius: 18px;
-        padding: 20px 16px;
+   @media (max-width: 480px) {
+      .prize-row {
+        grid-template-columns: 1fr 0.9fr;
+        row-gap: 4px;
       }
 
-      .side-panel {
-        max-width: none;
+      .prize-row .stock {
+        grid-column: span 2;
+        text-align: right;
       }
 
-      .wheel-wrapper {
-        width: 100%;
-      }
-
-      .link-detail {
-        margin-top: 16px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .wheel {
-        transition: none;
-      }
-      .modal-backdrop.show {
-        animation: none;
-      }
-      .modal {
-        animation: none;
+      .panel-title {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
@@ -369,231 +315,224 @@
   <div class="app">
     <div class="header">
       <h1 class="title">樂民友里全運會大抽獎</h1>
+      <div class="subtitle">顏色對應與獎項詳情（實時）</div>
     </div>
 
-    <div class="main">
-      <div class="side-panel">
-        <div class="side-title">顏色對應</div>
-        <div class="color-legend">
-          <div class="color-item">
-            <span class="color-dot dot-blue"></span>
-            <span>藍色：獎品1</span>
-          </div>
-          <div class="color-item">
-            <span class="color-dot dot-red"></span>
-            <span>紅色：獎品2</span>
-          </div>
-          <div class="color-item">
-            <span class="color-dot dot-green"></span>
-            <span>綠色：獎品3</span>
-          </div>
-          <div class="color-item">
-            <span class="color-dot dot-yellow"></span>
-            <span>黃色：安慰獎</span>
-          </div>
+    <div class="reset-wrap">
+      <button id="resetButton">重置抽獎紀錄</button>
+    </div>
+
+    <div class="side-panel">
+      <div class="panel-title">
+        抽獎設定
+        <span>顏色、比例、庫存</span>
+      </div>
+
+      <div class="color-legend">
+        <div class="color-item">
+          <span class="color-dot dot-blue"></span>
+          <span>藍色：獎品1</span>
+        </div>
+        <div class="color-item">
+          <span class="color-dot dot-red"></span>
+          <span>紅色：獎品2</span>
+        </div>
+        <div class="color-item">
+          <span class="color-dot dot-green"></span>
+          <span>綠色：獎品3</span>
+        </div>
+        <div class="color-item">
+          <span class="color-dot dot-yellow"></span>
+          <span>黃色：安慰獎</span>
         </div>
       </div>
 
-      <div class="wheel-block">
-        <div class="wheel-wrapper">
-          <div class="pointer"></div>
-          <div id="wheel" class="wheel"></div>
+      <div class="prize-list">
+        <div class="prize-row header">
+          <div>獎項</div>
+          <div>比例</div>
+          <div>剩餘 / 總數</div>
         </div>
+        <div class="prize-row" id="row-p1">
+          <div class="prize-name">
+            <span class="tag tag-1">獎品1</span>
+          </div>
+          <div class="ratio" id="ratio-p1">3 / 32 (9.4%)</div>
+          <div class="stock"><span id="stock-p1">0</span> / <span id="total-p1">0</span></div>
+        </div>
+        <div class="prize-row" id="row-p2">
+          <div class="prize-name">
+            <span class="tag tag-2">獎品2</span>
+          </div>
+          <div class="ratio" id="ratio-p2">1 / 32 (3.1%)</div>
+          <div class="stock"><span id="stock-p2">0</span> / <span id="total-p2">0</span></div>
+        </div>
+        <div class="prize-row" id="row-p3">
+          <div class="prize-name">
+            <span class="tag tag-3">獎品3</span>
+          </div>
+          <div class="ratio" id="ratio-p3">8 / 32 (25.0%)</div>
+          <div class="stock"><span id="stock-p3">0</span> / <span id="total-p3">0</span></div>
+        </div>
+        <div class="prize-row" id="row-consolation">
+          <div class="prize-name">
+            <span class="tag tag-4">安慰獎</span>
+          </div>
+          <div class="ratio" id="ratio-consolation">20 / 32 (62.5%)</div>
+          <div class="stock"><span id="stock-consolation">0</span> / <span id="total-consolation">0</span></div>
+        </div>
+      </div>
 
-        <div class="controls">
-          <button id="spinButton" class="button">開始抽獎</button>
+      <div class="total-info" id="totalInfo"></div>
+
+      <div class="status-box">
+        <div class="status-line">
+          <div class="status-label">總抽獎次數</div>
+          <div id="statusCount" class="status-value">0</div>
         </div>
+      </div>
+
+      <div class="status-box">
+        <div class="status-line">
+          <div class="status-label">當前狀態</div>
+          <div id="statusResult" class="status-value">尚未有抽獎紀錄</div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div id="prizeModalBackdrop" class="modal-backdrop" aria-modal="true" role="dialog">
-    <div class="modal">
-      <button id="modalCloseX" class="modal-close-x" aria-label="關閉">×</button>
-      <div id="modalMainText" class="modal-main-text">恭喜你中咗獎品1</div>
-      <button id="modalConfirmBtn" class="modal-button">知道了</button>
+    <div class="back-link">
+      <a href="index.html">返回抽獎頁</a>
     </div>
   </div>
 
   <script>
-    const wheel = document.getElementById("wheel");
-    const spinButton = document.getElementById("spinButton");
-
-    const prizeModalBackdrop = document.getElementById("prizeModalBackdrop");
-    const modalMainText = document.getElementById("modalMainText");
-    const modalConfirmBtn = document.getElementById("modalConfirmBtn");
-    const modalCloseX = document.getElementById("modalCloseX");
-
     const STORAGE_KEY = "lotteryState";
 
-    const prizes = [
-      { key: "p1",           name: "獎品1",   weight: 3,  weightLeft: 3,  stock: 3,  total: 3,  centerAngle: 73.125 },
-      { key: "p2",           name: "獎品2",   weight: 1,  weightLeft: 1,  stock: 1,  total: 1,  centerAngle: 140.625 },
-      { key: "p3",           name: "獎品3",   weight: 8,  weightLeft: 8,  stock: 8,  total: 8,  centerAngle: 208.125 },
-      { key: "consolation",  name: "安慰獎",   weight: 20, weightLeft: 20, stock: 20, total: 20, centerAngle: 0 }
-    ];
+    const stockEls = {
+      p1: document.getElementById("stock-p1"),
+      p2: document.getElementById("stock-p2"),
+      p3: document.getElementById("stock-p3"),
+      consolation: document.getElementById("stock-consolation")
+    };
 
-    const consolationSegments = [
-      { start: 0,        end: 56.25   },
-      { start: 90,       end: 135     },
-      { start: 146.25,   end: 163.125 },
-      { start: 253.125,  end: 360     }
-    ];
+    const totalEls = {
+      p1: document.getElementById("total-p1"),
+      p2: document.getElementById("total-p2"),
+      p3: document.getElementById("total-p3"),
+      consolation: document.getElementById("total-consolation")
+    };
 
-    let spinning = false;
-    let currentRotation = 0;
-    let drawCount = 0;
+    const ratioEls = {
+      p1: document.getElementById("ratio-p1"),
+      p2: document.getElementById("ratio-p2"),
+      p3: document.getElementById("ratio-p3"),
+      consolation: document.getElementById("ratio-consolation")
+    };
 
-    function saveStateToStorage() {
-      const state = {
-        prizes: prizes.map(p => ({
-          key: p.key,
-          stock: p.stock,
-          total: p.total,
-          weightLeft: p.weightLeft
-        })),
-        drawCount
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
+    const totalInfo = document.getElementById("totalInfo");
+    const statusCount = document.getElementById("statusCount");
+    const statusResult = document.getElementById("statusResult");
 
-    function loadStateFromStorage() {
+    function loadState() {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
+      if (!raw) {
+        statusResult.textContent = "尚未從抽獎頁取得資料";
+        statusResult.classList.add("error");
+        return;
+      }
+
       try {
         const state = JSON.parse(raw);
-        if (!state || !Array.isArray(state.prizes)) return;
+        if (!state || !Array.isArray(state.prizes)) {
+          statusResult.textContent = "資料格式有誤";
+          statusResult.classList.add("error");
+          return;
+        }
 
-        state.prizes.forEach(s => {
-          const target = prizes.find(p => p.key === s.key);
-          if (!target) return;
-          if (typeof s.stock === "number") target.stock = s.stock;
-          if (typeof s.total === "number") target.total = s.total;
-          if (typeof s.weightLeft === "number") {
-            target.weightLeft = s.weightLeft;
-          } else {
-            target.weightLeft = target.weight;
+        let totalRemain = 0;
+        let totalInit = 0;
+        let totalWeightLeft = 0;
+
+        state.prizes.forEach(p => {
+          const key = p.key;
+          if (!stockEls[key] || !totalEls[key]) return;
+
+          const stock = typeof p.stock === "number" ? p.stock : 0;
+          const total = typeof p.total === "number" ? p.total : 0;
+          const weightLeft = typeof p.weightLeft === "number" ? p.weightLeft : 0;
+
+          stockEls[key].textContent = stock;
+          totalEls[key].textContent = total;
+
+          totalRemain += stock;
+          totalInit += total;
+          totalWeightLeft += weightLeft;
+
+          const row = document.getElementById("row-" + key);
+          if (row) {
+            const stockCell = row.querySelector(".stock");
+            if (stock === 0 && total > 0) {
+              stockCell.classList.add("exhausted");
+            } else {
+              stockCell.classList.remove("exhausted");
+            }
           }
         });
 
-        if (typeof state.drawCount === "number") drawCount = state.drawCount;
+        state.prizes.forEach(p => {
+          const key = p.key;
+          if (!ratioEls[key]) return;
+          const weightLeft = typeof p.weightLeft === "number" ? p.weightLeft : 0;
+
+          if (totalWeightLeft > 0) {
+            const percent = (weightLeft / totalWeightLeft) * 100;
+            ratioEls[key].textContent = `${weightLeft} / ${totalWeightLeft} (${percent.toFixed(1)}%)`;
+          } else {
+            ratioEls[key].textContent = `0 / 0 (0.0%)`;
+          }
+        });
+
+        totalInfo.textContent = `獎項總數：${totalInit}，目前剩餘：${totalRemain}`;
+        statusCount.textContent = state.drawCount ?? 0;
+        statusResult.textContent = "已載入最新抽獎狀態";
+        statusResult.classList.remove("error");
+        statusResult.classList.add("success");
       } catch (e) {
-        console.warn("load state error", e);
+        statusResult.textContent = "無法讀取 localStorage 資料";
+        statusResult.classList.add("error");
       }
     }
 
-    loadStateFromStorage();
+    loadState();
 
-    function hasAnyStock() {
-      return prizes.some(p => p.stock > 0);
-    }
+    const resetButton = document.getElementById("resetButton");
 
-    function getTotalDynamicWeight() {
-      return prizes.reduce((sum, p) => {
-        const w = Math.max(0, p.weightLeft) * Math.max(0, p.stock);
-        return sum + w;
-      }, 0);
-    }
+    resetButton.addEventListener("click", () => {
+      const step1 = confirm("你確定要重置抽獎紀錄嗎？");
+      if (!step1) return;
 
-    function weightedRandomPrizeWithStock() {
-      const totalDynamicWeight = getTotalDynamicWeight();
-      if (totalDynamicWeight <= 0) return null;
+      const step2 = confirm("所有獎品剩餘數量與比例會回復到最初設定，確定要繼續嗎？");
+      if (!step2) return;
 
-      const r = Math.random() * totalDynamicWeight;
-      let acc = 0;
-      for (const p of prizes) {
-        const w = Math.max(0, p.weightLeft) * Math.max(0, p.stock);
-        if (w <= 0) continue;
-        acc += w;
-        if (r < acc) return p;
+      const step3 = confirm("最後確認：按「確定」即時重置，操作無法還原。仍然要重置？");
+      if (!step3) return;
+
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+        alert("已重置完成。\n請重新打開或重新載入抽獎頁（index.html）。");
+        Object.values(stockEls).forEach(el => el.textContent = "0");
+        Object.values(totalEls).forEach(el => el.textContent = "0");
+        Object.values(ratioEls).forEach(el => el.textContent = "0 / 0 (0.0%)");
+        totalInfo.textContent = "";
+        statusCount.textContent = "0";
+        statusResult.textContent = "已重置本機抽獎紀錄";
+        statusResult.classList.remove("success");
+        statusResult.classList.add("error");
+      } catch (e) {
+        console.error(e);
+        alert("重置時出現問題，請稍後再試。");
       }
-      return prizes.find(p => p.stock > 0) || null;
-    }
-
-    function pickPrizeWithStock() {
-      if (!hasAnyStock()) return null;
-      return weightedRandomPrizeWithStock();
-    }
-
-    function getAngleForPrize(prize) {
-      if (prize.key !== "consolation") {
-        return prize.centerAngle;
-      }
-      const seg = consolationSegments[Math.floor(Math.random() * consolationSegments.length)];
-      const r = Math.random();
-      return seg.start + (seg.end - seg.start) * r;
-    }
-
-    function showPrizeModal(prize) {
-      modalMainText.textContent = `恭喜你中咗${prize.name}`;
-      prizeModalBackdrop.classList.add("show");
-    }
-
-    function hidePrizeModal() {
-      prizeModalBackdrop.classList.remove("show");
-    }
-
-    modalConfirmBtn.addEventListener("click", hidePrizeModal);
-    modalCloseX.addEventListener("click", hidePrizeModal);
-    prizeModalBackdrop.addEventListener("click", e => {
-      if (e.target === prizeModalBackdrop) hidePrizeModal();
     });
-
-    function spin() {
-      if (spinning) return;
-      if (!hasAnyStock()) {
-        alert("活動已結束，所有獎項都抽完了");
-        return;
-      }
-
-      const prize = pickPrizeWithStock();
-      if (!prize) {
-        alert("活動已結束，所有獎項都抽完了");
-        return;
-      }
-
-      spinning = true;
-      spinButton.disabled = true;
-
-      const baseAngle = getAngleForPrize(prize);
-      const randomOffset = (Math.random() - 0.5) * 8;
-      const finalAngle = baseAngle + randomOffset;
-
-      const normalizedCurrent = ((currentRotation % 360) + 360) % 360;
-      let delta = (90 - finalAngle) - normalizedCurrent;
-      if (delta <= 0) delta += 360;
-
-      const extraRotations = 5 + Math.floor(Math.random() * 3);
-      const totalDelta = delta + extraRotations * 360;
-
-      const targetRotation = currentRotation + totalDelta;
-      wheel.style.transform = `rotate(${targetRotation}deg)`;
-      currentRotation = targetRotation;
-
-      const duration = 4000;
-
-      setTimeout(() => {
-        prize.stock = Math.max(0, prize.stock - 1);
-        if (prize.weightLeft > 0) {
-          prize.weightLeft -= 1;
-        }
-        drawCount += 1;
-
-        saveStateToStorage();
-        showPrizeModal(prize);
-
-        if (!hasAnyStock()) {
-          spinButton.textContent = "活動結束";
-        } else {
-          spinButton.disabled = false;
-        }
-
-        spinning = false;
-      }, duration + 80);
-    }
-
-    spinButton.addEventListener("click", spin);
   </script>
 </body>
 </html>
