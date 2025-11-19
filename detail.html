@@ -12,7 +12,9 @@
       --muted: #6b7280;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -23,22 +25,23 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 16px;
+      padding: clamp(12px, 4vw, 32px);
+      font-size: clamp(15px, 1.6vw, 18px);
     }
 
     .app {
       width: 100%;
-      max-width: 520px;
+      max-width: 560px;
       background: linear-gradient(145deg, rgba(239, 246, 255, 0.96), rgba(219, 234, 254, 0.98));
-      border-radius: 18px;
+      border-radius: 22px;
       border: 1px solid rgba(129, 140, 248, 0.5);
       box-shadow:
         0 18px 40px rgba(15, 23, 42, 0.25),
         0 0 0 1px rgba(148, 163, 184, 0.6);
-      padding: 18px 16px 14px;
+      padding: clamp(18px, 4vw, 28px);
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 14px;
     }
 
     .header {
@@ -47,28 +50,27 @@
     }
 
     .title {
-      font-size: 20px;
+      font-size: clamp(20px, 2.8vw, 24px);
       font-weight: 700;
-      color: #0f172a;
+      margin: 0;
     }
 
     .subtitle {
-      font-size: 12px;
+      font-size: 0.85em;
       color: var(--muted);
     }
 
     .reset-wrap {
       display: flex;
       justify-content: flex-end;
-      margin-bottom: 4px;
-      margin-top: 2px;
+      margin-top: 4px;
     }
 
     #resetButton {
       border: none;
       border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 11px;
+      padding: 8px 14px;
+      font-size: 0.75em;
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -76,8 +78,9 @@
       background: linear-gradient(135deg, #ef4444, #b91c1c);
       color: #fef2f2;
       box-shadow:
-        0 5px 10px rgba(239, 68, 68, 0.55),
+        0 5px 10px rgba(239, 68, 68, 0.35),
         0 0 0 1px rgba(248, 113, 113, 0.7);
+      transition: filter 0.12s;
     }
 
     #resetButton:hover {
@@ -87,22 +90,22 @@
     #resetButton:active {
       transform: translateY(1px);
       box-shadow:
-        0 3px 8px rgba(239, 68, 68, 0.6),
+        0 3px 8px rgba(239, 68, 68, 0.4),
         0 0 0 1px rgba(248, 113, 113, 0.7);
     }
 
     .side-panel {
       background: rgba(239, 246, 255, 0.96);
-      border-radius: 14px;
-      padding: 12px 14px;
+      border-radius: 16px;
+      padding: 16px;
       border: 1px solid rgba(148, 163, 184, 0.6);
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
 
     .panel-title {
-      font-size: 13px;
+      font-size: 0.85em;
       font-weight: 600;
       letter-spacing: 0.05em;
       text-transform: uppercase;
@@ -110,11 +113,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
     .panel-title span {
-      font-size: 11px;
-      color: var(--muted);
+      font-size: 0.75em;
+     	color: var(--muted);
       font-weight: 400;
     }
 
@@ -122,7 +127,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      font-size: 13px;
+      font-size: 0.9em;
       margin-top: 4px;
     }
 
@@ -139,6 +144,7 @@
       border: 1px solid rgba(15, 23, 42, 0.15);
       flex-shrink: 0;
     }
+
     .dot-blue { background: #3b82f6; }
     .dot-red { background: #ef4444; }
     .dot-green { background: #22c55e; }
@@ -147,19 +153,19 @@
     .prize-list {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
 
     .prize-row {
       display: grid;
-      grid-template-columns: 1.3fr 1.2fr 0.9fr;
+      grid-template-columns: 1.3fr 1.1fr 0.9fr;
       align-items: center;
-      font-size: 13px;
-      padding: 7px 8px;
-      border-radius: 10px;
+      font-size: 0.9em;
+      padding: 10px 12px;
+      border-radius: 12px;
       background: rgba(239, 246, 255, 0.95);
       border: 1px solid rgba(148, 163, 184, 0.8);
-      column-gap: 4px;
+      column-gap: 6px;
     }
 
     .prize-row.header {
@@ -167,25 +173,24 @@
       border: none;
       padding-top: 0;
       padding-bottom: 0;
-      font-size: 11px;
+      font-size: 0.75em;
       text-transform: uppercase;
       letter-spacing: 0.07em;
       color: var(--muted);
-      grid-template-columns: 1.3fr 1.2fr 0.9fr;
     }
 
     .prize-name {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       font-weight: 600;
       color: #111827;
     }
 
     .tag {
-      padding: 2px 6px;
+      padding: 2px 8px;
       border-radius: 999px;
-      font-size: 10px;
+      font-size: 0.75em;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -218,12 +223,13 @@
     .ratio {
       font-variant-numeric: tabular-nums;
       color: #4c1d95;
-      font-size: 12px;
+      font-size: 0.85em;
     }
 
     .stock {
       font-variant-numeric: tabular-nums;
       color: #111827;
+      font-size: 0.85em;
     }
 
     .stock.exhausted {
@@ -233,46 +239,48 @@
 
     .status-box {
       margin-top: 4px;
-      padding: 8px 9px;
-      border-radius: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
       background: rgba(239, 246, 255, 0.95);
       border: 1px solid rgba(148, 163, 184, 0.8);
-      font-size: 12px;
+      font-size: 0.85em;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
     }
 
     .status-line {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
     .status-label {
       color: var(--muted);
-      font-size: 11px;
+      font-size: 0.8em;
     }
 
     .status-value {
-      font-size: 13px;
-      font-weight: 500;
+      font-size: 0.95em;
+      font-weight: 600;
       color: #111827;
     }
 
-    .status-value.success { color: #166534; font-weight: 600; }
-    .status-value.error { color: #b91c1c; font-weight: 600; }
+    .status-value.success { color: #166534; }
+    .status-value.error { color: #b91c1c; }
 
     .total-info {
-      font-size: 11px;
+      font-size: 0.82em;
       color: var(--muted);
       text-align: right;
       margin-top: -4px;
     }
 
     .back-link {
-      margin-top: 6px;
-      font-size: 12px;
+      margin-top: 8px;
+      font-size: 0.9em;
       text-align: center;
     }
 
@@ -280,15 +288,33 @@
       color: #1d4ed8;
       text-decoration: none;
     }
+
     .back-link a:hover {
       text-decoration: underline;
+    }
+
+   @media (max-width: 480px) {
+      .prize-row {
+        grid-template-columns: 1fr 0.9fr;
+        row-gap: 4px;
+      }
+
+      .prize-row .stock {
+        grid-column: span 2;
+        text-align: right;
+      }
+
+      .panel-title {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
   <div class="app">
     <div class="header">
-      <div class="title">樂民友里全運會大抽獎</div>
+      <h1 class="title">樂民友里全運會大抽獎</h1>
       <div class="subtitle">顏色對應與獎項詳情（實時）</div>
     </div>
 
@@ -345,14 +371,14 @@
           <div class="prize-name">
             <span class="tag tag-3">獎品3</span>
           </div>
-          <div class="ratio" id="ratio-p3">3 / 32 (9.4%)</div>
+          <div class="ratio" id="ratio-p3">8 / 32 (25.0%)</div>
           <div class="stock"><span id="stock-p3">0</span> / <span id="total-p3">0</span></div>
         </div>
         <div class="prize-row" id="row-consolation">
           <div class="prize-name">
             <span class="tag tag-4">安慰獎</span>
           </div>
-          <div class="ratio" id="ratio-consolation">25 / 32 (78.1%)</div>
+          <div class="ratio" id="ratio-consolation">20 / 32 (62.5%)</div>
           <div class="stock"><span id="stock-consolation">0</span> / <span id="total-consolation">0</span></div>
         </div>
       </div>
@@ -447,11 +473,12 @@
             const stockCell = row.querySelector(".stock");
             if (stock === 0 && total > 0) {
               stockCell.classList.add("exhausted");
+            } else {
+              stockCell.classList.remove("exhausted");
             }
           }
         });
 
-        // 第二輪：顯示比例 = 各自 weightLeft / totalWeightLeft 以及百分比
         state.prizes.forEach(p => {
           const key = p.key;
           if (!ratioEls[key]) return;
@@ -459,8 +486,7 @@
 
           if (totalWeightLeft > 0) {
             const percent = (weightLeft / totalWeightLeft) * 100;
-            const percentStr = percent.toFixed(1);
-            ratioEls[key].textContent = `${weightLeft} / ${totalWeightLeft} (${percentStr}%)`;
+            ratioEls[key].textContent = `${weightLeft} / ${totalWeightLeft} (${percent.toFixed(1)}%)`;
           } else {
             ratioEls[key].textContent = `0 / 0 (0.0%)`;
           }
@@ -479,7 +505,6 @@
 
     loadState();
 
-    // ========= 重置按鈕邏輯 =========
     const resetButton = document.getElementById("resetButton");
 
     resetButton.addEventListener("click", () => {
